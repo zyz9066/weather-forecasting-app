@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Box, TextField, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useWeather } from "../contexts/WeatherContext";
 
-const SearchBar = ({ onSearch, placeholder }) => {
+const SearchBar = ({ onSearch }) => {
+  const { translation } = useWeather();
   const [value, setValue] = useState("");
 
   const handleSubmit = (e) => {
@@ -20,7 +22,7 @@ const SearchBar = ({ onSearch, placeholder }) => {
       <TextField
         fullWidth
         size="small"
-        label={placeholder}
+        label={translation.enterCity}
         variant="outlined"
         value={value}
         onChange={(e) => setValue(e.target.value)}

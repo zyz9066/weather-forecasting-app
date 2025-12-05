@@ -1,6 +1,9 @@
 import { Card, CardContent, Typography, Box } from "@mui/material";
+import { useWeather } from "../contexts/WeatherContext";
 
-const ForecastCard = ({ day, units, language }) => {
+const ForecastCard = ({ day }) => {
+  const { state: { units, language } } = useWeather();
+
   const tempUnit = units === "metric" ? "°C" : "°F";
 
   return (

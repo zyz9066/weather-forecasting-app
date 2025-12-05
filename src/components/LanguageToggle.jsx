@@ -1,6 +1,8 @@
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
+import { useWeather } from "../contexts/WeatherContext";
 
-const LanguageToggle = ({ language, onChange }) => {
+const LanguageToggle = ({ onChange }) => {
+  const { state: { language } } = useWeather();
   const handleChange = (_, newLang) => {
     if (newLang !== null) onChange(newLang);
   };
