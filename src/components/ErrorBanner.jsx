@@ -1,8 +1,8 @@
 import { Alert } from "@mui/material";
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeatherState } from "../contexts/WeatherContext";
 
 const ErrorBanner = () => {
-  const { state: { error } } = useWeather();
+  const { error } = useWeatherState();
 
   if (!error) return null;
 

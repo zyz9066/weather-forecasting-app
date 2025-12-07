@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, TextField, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeatherState } from "../contexts/WeatherContext";
 
 const SearchBar = ({ onSearch }) => {
-  const { translation } = useWeather();
+  const { translation } = useWeatherState();
   const [value, setValue] = useState("");
 
   const handleSubmit = (e) => {

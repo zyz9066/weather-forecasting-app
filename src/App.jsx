@@ -1,72 +1,72 @@
 
 import { Box, Container, Paper, Grid, Typography, CircularProgress } from "@mui/material";
-import { useWeather } from "./contexts/WeatherContext";
+import { useWeatherState, useWeatherDispatch } from "./contexts/WeatherContext";
 import SearchBar from "./components/SearchBar";
 import UnitToggle from "./components/UnitToggle"
+import LanguageToggle from "./components/LanguageToggle";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
 import ForecastGrid from "./components/ForecastGrid";
 import ErrorBanner from "./components/ErrorBanner";
-import LanguageToggle from "./components/LanguageToggle";
 
 
 const App = () => {
-  const { state, dispatch, translation, fetchWeather } = useWeather();
+  const { city, units, currentWeather, forecast, loading, error, language, translation } = useWeatherState();
+  const { dispatch, fetchWeather } = useWeatherDispatch();
 
   const handleSearch = (newCity) => {
     dispatch({ type: "SET_CITY", city: newCity });
-    fetchWeather(newCity, state.units, state.language);
+    fetchWeather(newCity, units, language);
   };
 
   const handleUnitsChange = (newUnits) => {
     dispatch({ type: "SET_UNITS", units: newUnits });
-    if (state.city) fetchWeather(state.city, newUnits, state.language);
+    if (city) fetchWeather(city, newUnits, language);
   };
 
   const handleLanguageChange = (newLanguage) => {
     dispatch({ type: "SET_LANGUAGE", language: newLanguage });
-    if (state.city) fetchWeather(state.city, state.units, newLanguage);
+    if (city) fetchWeather(city, units, newLanguage);
   };
 
   return (
     <Container maxWidth="md">
       <Box sx={{ py: 4 }}>
-        <Paper
-          elevation={6}
-          sx={{
-            p: 3,
-            borderRadius: 3,
-            bgcolor: "background.paper",
-          }}
-        >
+        <Paper elevation={6} sx={{ p: 3, borderRadius: 3 }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={6}>
               <Typography variant="h4" gutterBottom>
               {translation.title}
               </Typography>
               <SearchBar onSearch={handleSearch} />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "flex-end", gap: 2, alignItems: "center" }}>
               <UnitToggle onChange={handleUnitsChange} />
-            </Grid>
-            <Grid item xs={12} sm="auto">
               <LanguageToggle onChange={handleLanguageChange} />
             </Grid>
           </Grid>
 
-          {state.error && <ErrorBanner />}
+          {error && <ErrorBanner />}
 
-          {state.loading ? (
+          {!loading && !currentWeather && !forecast && (
+            <Box sx={{ mt: 3 }}>
+              <Typography variant="body2" color="text.secondary">
+                {translation.noData}
+              </Typography>
+            </Box>
+          )}
+
+          {loading ? (
             <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
               <CircularProgress />
             </Box>
           ) : (
             <>
-              {state.currentWeather && (
+              {currentWeather && (
                 <Box sx={{ mt: 3 }}>
                   <CurrentWeatherCard />
                 </Box>
               )}
-              {state.forecast && (
+              {forecast && (
                 <Box sx={{ mt: 3 }}>
                   <ForecastGrid />
                 </Box>

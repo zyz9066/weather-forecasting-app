@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeatherState } from "../contexts/WeatherContext";
 import ForecastCard from "./ForecastCard";
 
 const groupIntoDays = (list) => {
@@ -25,7 +25,7 @@ const groupIntoDays = (list) => {
 }
 
 function ForecastGrid() {
-  const { state: { forecast } } = useWeather();
+  const { forecast } = useWeatherState();
 
   const days = groupIntoDays(forecast.list);
 

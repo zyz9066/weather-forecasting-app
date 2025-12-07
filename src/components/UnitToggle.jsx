@@ -1,8 +1,8 @@
 import { ToggleButtonGroup, ToggleButton } from "@mui/material";
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeatherState } from "../contexts/WeatherContext";
 
  const UnitToggle = ({ onChange }) => {
-  const { state: { units } } = useWeather();
+  const { units } = useWeatherState();
 
   const handleChange = (_, newUnits) => {
     if (newUnits !== null) onChange(newUnits);

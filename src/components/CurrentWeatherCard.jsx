@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardContent, Typography, Stack } from "@mui/material";
-import { useWeather } from "../contexts/WeatherContext";
+import { useWeatherState } from "../contexts/WeatherContext";
 
 const CurrentWeatherCard = () => {
-  const { state: { currentWeather, units }, translation } = useWeather();
+  const { currentWeather, units, translation } = useWeatherState();
 
   const data = currentWeather;
   const tempUnit = units === "metric" ? translation.unitC : translation.unitF;
