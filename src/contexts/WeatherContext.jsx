@@ -1,19 +1,16 @@
 import { createContext, useContext, useEffect, useMemo, useReducer } from "react";
-import { getCurrentWeather, getForecast } from "../api/weatherApi";
 import { weatherReducer, initialState } from "./weatherReducer";
 import { translations } from "./weatherTranslations";
+import { actionCreators } from "./weatherActions";
 
 const WeatherStateContext = createContext(null);
 const WeatherDispatchContext = createContext(null);
-
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 const WeatherProvider = ({ children }) => {
   const [state, dispatch] = useReducer(weatherReducer, initialState, (init) => {
     try {
       const stored = JSON.parse(localStorage.getItem("weather-settings"));
-      if (!stored) return init;
-      return { ...init, ...stored };
+      return stored ? { ...init, ...stored } : init;
     } catch {
       return init;
     }
@@ -24,28 +21,13 @@ const WeatherProvider = ({ children }) => {
     [state.language]
   );
 
-  useEffect(() => {
-    const { city, units, language } = state;
-    localStorage.setItem(
-      "weather-settings",
-      JSON.stringify({ city, units, language })
-    );
-  }, [state.city, state.units, state.language]);
-
-  const fetchWeather = async (targetCity, targetUnits, targetLanguage) => {
-    if (!targetCity) return;
-    dispatch({ type: "SET_LOADING" });
-    try {
-      const [current, forecast] = await Promise.all([
-        getCurrentWeather(targetCity, targetUnits, targetLanguage, API_KEY),
-        getForecast(targetCity, targetUnits, targetLanguage, API_KEY),
-      ]);
-      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast } });
-    } catch (err) {
-      const msg = parseWeatherError(err);
-      dispatch({ type: "SET_ERROR", payload: msg || translation.errorGeneric });
-    }
-  };
+  useEffect(
+    () => {
+      const { city, units, language } = state;
+      localStorage.setItem("weather-settings", JSON.stringify({ city, units, language }));
+    },
+    [state.city, state.units, state.language]
+  );
 
   const valueState = useMemo(
     () => ({ ...state, translation }),
@@ -53,7 +35,7 @@ const WeatherProvider = ({ children }) => {
   );
 
   const valueDispatch = useMemo(
-    () => ({ dispatch, fetchWeather }),
+    () => ({ dispatch, actions: actionCreators }),
     [dispatch]
   );
 
@@ -64,13 +46,6 @@ const WeatherProvider = ({ children }) => {
       </WeatherDispatchContext.Provider>
     </WeatherStateContext.Provider>
   );
-};
-
-const parseWeatherError = (err) => {
-  if (err.status === 404) return "City not found";
-  if (err.status === 401) return "Invalid API key";
-  if (err.status === 429) return "API rate limit exceeded";
-  return err.message || null;
 };
 
 const useWeatherState = () => {

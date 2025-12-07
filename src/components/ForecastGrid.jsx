@@ -32,7 +32,7 @@ function ForecastGrid() {
   return (
     <Grid container spacing={2}>
       {days.map((day) => (
-        <Grid item xs={6} sm={4} md={2.4} key={day.date}>
+        <Grid key={day.date}>
           <ForecastCard key={day.date} day={day} />
         </Grid>
       ))}

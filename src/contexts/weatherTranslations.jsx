@@ -2,7 +2,6 @@ export const translations = {
   en: {
     title: "Weather Forecast",
     enterCity: "Enter city",
-    errorGeneric: "Could not load weather data",
     feelsLike: "Feels like",
     humidity: "Humidity",
     wind: "Wind",
@@ -13,7 +12,6 @@ export const translations = {
   fr: {
     title: "Prévisions météo",
     enterCity: "Entrez une ville",
-    errorGeneric: "Impossible de charger les données météo",
     feelsLike: "Ressenti",
     humidity: "Humidité",
     wind: "Vent",

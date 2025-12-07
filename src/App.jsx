@@ -11,21 +11,21 @@ import ErrorBanner from "./components/ErrorBanner";
 
 const App = () => {
   const { city, units, currentWeather, forecast, loading, error, language, translation } = useWeatherState();
-  const { dispatch, fetchWeather } = useWeatherDispatch();
+  const { dispatch, actions } = useWeatherDispatch();
 
   const handleSearch = (newCity) => {
-    dispatch({ type: "SET_CITY", payload: newCity });
-    fetchWeather(newCity, units, language);
+    actions.setCity(dispatch, newCity);
+    actions.loadWeather(dispatch, newCity, units, language);
   };
 
   const handleUnitsChange = (newUnits) => {
-    dispatch({ type: "SET_UNITS", payload: newUnits });
-    if (city) fetchWeather(city, newUnits, language);
+    actions.setUnits(dispatch, newUnits);
+    if (city) actions.loadWeather(dispatch, city, newUnits, language);
   };
 
   const handleLanguageChange = (newLanguage) => {
-    dispatch({ type: "SET_LANGUAGE", payload: newLanguage });
-    if (city) fetchWeather(city, units, newLanguage);
+    actions.setLanguage(dispatch, newLanguage);
+    if (city) actions.loadWeather(dispatch, city, units, newLanguage);
   };
 
   return (
@@ -33,13 +33,11 @@ const App = () => {
       <Box sx={{ py: 4 }}>
         <Paper elevation={6} sx={{ p: 3, borderRadius: 3 }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h4" gutterBottom>
-              {translation.title}
-              </Typography>
+            <Grid>
+              <Typography variant="h4" gutterBottom>{translation.title}</Typography>
               <SearchBar onSearch={handleSearch} />
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "flex-end", gap: 2, alignItems: "center" }}>
+            <Grid sx={{ display: "flex", justifyContent: "flex-end", gap: 2, alignItems: "center" }}>
               <UnitToggle onChange={handleUnitsChange} />
               <LanguageToggle onChange={handleLanguageChange} />
             </Grid>

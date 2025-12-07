@@ -11,14 +11,11 @@ const SearchBar = ({ onSearch }) => {
     e.preventDefault();
     if (!value.trim()) return;
     onSearch(value.trim());
+    setValue(""); // Clear input after search
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{ display: "flex", gap: 1 }}
-    >
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex", gap: 1 }}>
       <TextField
         fullWidth
         size="small"
