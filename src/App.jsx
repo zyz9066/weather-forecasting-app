@@ -46,9 +46,6 @@ const App = () => {
               <Typography variant="body1" color="text.secondary">
                 {translation.noData}
               </Typography>
-              <Typography variant="caption" color="text.disabled" sx={{ mt: 1 }}>
-                Ctrl+Enter to refresh | Use search or location button
-              </Typography>
             </Box>
           )}
 
