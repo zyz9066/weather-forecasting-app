@@ -32,6 +32,7 @@ const actionCreators =  {
         getForecastByCoords(lat, lon, units, language, API_KEY),
       ]);
       dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast }});
+      dispatch({ type: "SET_CITY", payload: current.name });
     } catch (err) {
       const msg = parseWeatherError(err);
       dispatch({ type: "SET_ERROR", payload: msg });
