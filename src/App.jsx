@@ -14,17 +14,17 @@ const App = () => {
   const { dispatch, fetchWeather } = useWeatherDispatch();
 
   const handleSearch = (newCity) => {
-    dispatch({ type: "SET_CITY", city: newCity });
+    dispatch({ type: "SET_CITY", payload: newCity });
     fetchWeather(newCity, units, language);
   };
 
   const handleUnitsChange = (newUnits) => {
-    dispatch({ type: "SET_UNITS", units: newUnits });
+    dispatch({ type: "SET_UNITS", payload: newUnits });
     if (city) fetchWeather(city, newUnits, language);
   };
 
   const handleLanguageChange = (newLanguage) => {
-    dispatch({ type: "SET_LANGUAGE", language: newLanguage });
+    dispatch({ type: "SET_LANGUAGE", payload: newLanguage });
     if (city) fetchWeather(city, units, newLanguage);
   };
 

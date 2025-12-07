@@ -40,10 +40,10 @@ const WeatherProvider = ({ children }) => {
         getCurrentWeather(targetCity, targetUnits, targetLanguage, API_KEY),
         getForecast(targetCity, targetUnits, targetLanguage, API_KEY),
       ]);
-      dispatch({ type: "SET_WEATHER", currentWeather: current, forecast });
+      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast } });
     } catch (err) {
       const msg = parseWeatherError(err);
-      dispatch({ type: "SET_ERROR", error: msg || translation.errorGeneric });
+      dispatch({ type: "SET_ERROR", payload: msg || translation.errorGeneric });
     }
   };
 

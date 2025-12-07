@@ -11,31 +11,31 @@ export const initialState = {
 export const weatherReducer = (state, action) => {
   switch (action.type) {
       case "SET_LOADING":
-      return { ...state, loading: true, error: "" };
+        return { ...state, loading: true, error: "" };
       case "SET_WEATHER":
-      return {
+        return {
           ...state,
           loading: false,
-          currentWeather: action.currentWeather,
-          forecast: action.forecast,
+          currentWeather: action.payload.currentWeather,
+          forecast: action.payload.forecast,
           error: "",
-      };
+        };
       case "SET_ERROR":
-      return {
+        return {
           ...state,
           loading: false,
           currentWeather: null,
           forecast: null,
-          error: action.error,
-      };
+          error: action.payload,
+        };
       case "SET_CITY":
-      return { ...state, city: action.city };
+        return { ...state, city: action.payload };
       case "SET_UNITS":
-      return { ...state, units: action.units };
+        return { ...state, units: action.payload };
       case "SET_LANGUAGE":
-      return { ...state, language: action.language };
+        return { ...state, language: action.payload };
       default:
-      return state;
+        return state;
   }
 };
   
