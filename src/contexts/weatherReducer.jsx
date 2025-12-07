@@ -1,7 +1,7 @@
 export const initialState = {
   city: "",
   units: "metric",
-  currentWeather: null,
+  weather: null,
   forecast: null,
   loading: false,
   error: "",
@@ -16,7 +16,7 @@ export const weatherReducer = (state, action) => {
         return {
           ...state,
           loading: false,
-          currentWeather: action.payload.currentWeather,
+          weather: action.payload.weather,
           forecast: action.payload.forecast,
           error: "",
         };
@@ -24,7 +24,7 @@ export const weatherReducer = (state, action) => {
         return {
           ...state,
           loading: false,
-          currentWeather: null,
+          weather: null,
           forecast: null,
           error: action.payload,
         };

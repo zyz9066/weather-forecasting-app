@@ -1,10 +1,10 @@
 import { Card, CardHeader, CardContent, Typography, Stack } from "@mui/material";
 import { useWeatherState } from "../contexts/WeatherContext";
 
-const CurrentWeatherCard = () => {
-  const { currentWeather, units, translation } = useWeatherState();
+const WeatherCard = () => {
+  const { weather, units, translation } = useWeatherState();
 
-  const data = currentWeather;
+  const data = weather;
   const tempUnit = units === "metric" ? translation.unitC : translation.unitF;
   const speedUnit = units === "metric" ? "m/s" : "mph";
   const icon = data.weather?.[0]?.icon;
@@ -52,4 +52,4 @@ const CurrentWeatherCard = () => {
   );
 };
 
-export default CurrentWeatherCard;
+export default WeatherCard;
