@@ -9,15 +9,15 @@ const actionCreators =  {
   setLanguage: (dispatch, language) => dispatch({ type: "SET_LANGUAGE", payload: language }),
 
   // Weather loading workflow
-  loadWeather: async (dispatch, city, units, language) => {
+  loadWeatherByCity: async (dispatch, city, units, language) => {
     if (!city) return;
     dispatch({ type: "SET_LOADING" });
     try {
-      const [current, forecast] = await Promise.all([
+      const [weather, forecast] = await Promise.all([
         getWeatherByCity(city, units, language, API_KEY),
         getForecastByCity(city, units, language, API_KEY),
       ]);
-      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast }});
+      dispatch({ type: "SET_WEATHER", payload: { weather, forecast }});
     } catch (err) {
       const msg = parseWeatherError(err);
       dispatch({ type: "SET_ERROR", payload: msg });
@@ -27,12 +27,12 @@ const actionCreators =  {
     if (!lat || !lon) return;
     dispatch({ type: "SET_LOADING" });
     try {
-      const [current, forecast] = await Promise.all([
+      const [weather, forecast] = await Promise.all([
         getWeatherByCoords(lat, lon, units, language, API_KEY),
         getForecastByCoords(lat, lon, units, language, API_KEY),
       ]);
-      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast }});
-      dispatch({ type: "SET_CITY", payload: current.name });
+      dispatch({ type: "SET_WEATHER", payload: { weather, forecast }});
+      dispatch({ type: "SET_CITY", payload: weather.name });
     } catch (err) {
       const msg = parseWeatherError(err);
       dispatch({ type: "SET_ERROR", payload: msg });
