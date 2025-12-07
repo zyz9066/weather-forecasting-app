@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { Box, TextField, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 import SearchIcon from "@mui/icons-material/Search";
 import { useWeatherState } from "../contexts/WeatherContext";
+import { useWeatherSearch } from "../hooks/useWeatherSearch";
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
   const { translation } = useWeatherState();
+  const { searchCity, useCurrentLocation } = useWeatherSearch();
   const [value, setValue] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!value.trim()) return;
-    onSearch(value.trim());
+    searchCity(value.trim());
     setValue(""); // Clear input after search
   };
 
@@ -24,8 +27,11 @@ const SearchBar = ({ onSearch }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <IconButton type="submit" color="primary" sx={{ flexShrink: 0 }}>
+      <IconButton type="submit" color="primary">
         <SearchIcon />
+      </IconButton>
+      <IconButton onClick={useCurrentLocation} color="secondary">
+        <MyLocationIcon />
       </IconButton>
     </Box>
   );

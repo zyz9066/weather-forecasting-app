@@ -5,8 +5,8 @@ import { WeatherProvider } from "./contexts/WeatherContext";
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <WeatherProvider>
-      <App />
-    </WeatherProvider>
-  </StrictMode>,
-)
+      <WeatherProvider>
+        <App />
+      </WeatherProvider>
+  </StrictMode>
+);

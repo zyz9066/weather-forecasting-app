@@ -10,16 +10,28 @@ const handleResponse = async (res) => {
   return data;
 };
 
-const getCurrentWeather = async (city, units, language, apiKey) => {
+const getWeatherByCity = async (city, units, language, apiKey) => {
   const url = `${API_BASE}/weather?q=${encodeURIComponent(city)}&units=${units}&lang=${language}&appid=${apiKey}`;
   const res = await fetch(url);
   return handleResponse(res);
 }
 
-const getForecast = async (city, units, language, apiKey) => {
+const getForecastByCity = async (city, units, language, apiKey) => {
   const url = `${API_BASE}/forecast?q=${encodeURIComponent(city)}&units=${units}&lang=${language}&appid=${apiKey}`;
   const res = await fetch(url);
   return handleResponse(res);
 }
 
-export { getCurrentWeather, getForecast };
+const getWeatherByCoords = async (lat, lon, units, language, apiKey) => {
+  const url = `${API_BASE}/weather?lat=${lat}&lon=${lon}&units=${units}&lang=${language}&appid=${apiKey}`;
+  const res = await fetch(url);
+  return handleResponse(res);
+}
+
+const getForecastByCoords = async (lat, lon, units, language, apiKey) => {
+  const url = `${API_BASE}/forecast?lat=${lat}&lon=${lon}&units=${units}&lang=${language}&appid=${apiKey}`;
+  const res = await fetch(url);
+  return handleResponse(res);
+}
+
+export { getWeatherByCity, getForecastByCity, getWeatherByCoords, getForecastByCoords };

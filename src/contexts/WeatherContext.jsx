@@ -7,19 +7,20 @@ const WeatherStateContext = createContext(null);
 const WeatherDispatchContext = createContext(null);
 
 const WeatherProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(weatherReducer, initialState, (init) => {
-    try {
-      const stored = JSON.parse(localStorage.getItem("weather-settings"));
-      return stored ? { ...init, ...stored } : init;
-    } catch {
-      return init;
+  const [state, dispatch] = useReducer(
+    weatherReducer,
+    initialState,
+    (init) => {
+      try {
+        const stored = JSON.parse(localStorage.getItem("weather-settings"));
+        return stored ? { ...init, ...stored } : init;
+      } catch {
+        return init;
+      }
     }
-  });
-
-  const translation = useMemo(
-    () => translations[state.language] || translations.en,
-    [state.language]
   );
+
+  const translation = useMemo(() => translations[state.language] || translations.en, [state.language]);
 
   useEffect(
     () => {

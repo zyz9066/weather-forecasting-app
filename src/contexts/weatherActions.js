@@ -1,4 +1,4 @@
-import { getCurrentWeather, getForecast } from "../api/weatherApi";
+import { getWeatherByCity, getForecastByCity, getWeatherByCoords, getForecastByCoords } from "../api/weatherApi";
 
 const API_KEY = import.meta.env.VITE_WEATHER_API_KEY || process.env.REACT_APP_WEATHER_API_KEY;
 
@@ -14,11 +14,24 @@ const actionCreators =  {
     dispatch({ type: "SET_LOADING" });
     try {
       const [current, forecast] = await Promise.all([
-        getCurrentWeather(city, units, language, API_KEY),
-        getForecast(city, units, language, API_KEY),
+        getWeatherByCity(city, units, language, API_KEY),
+        getForecastByCity(city, units, language, API_KEY),
       ]);
-      dispatch({ type: "SET_WEATHER", payload: {currentWeather: current, forecast }
-      });
+      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast }});
+    } catch (err) {
+      const msg = parseWeatherError(err);
+      dispatch({ type: "SET_ERROR", payload: msg });
+    }
+  },
+  loadWeatherByCoords: async (dispatch, lat, lon, units, language) => {
+    if (!lat || !lon) return;
+    dispatch({ type: "SET_LOADING" });
+    try {
+      const [current, forecast] = await Promise.all([
+        getWeatherByCoords(lat, lon, units, language, API_KEY),
+        getForecastByCoords(lat, lon, units, language, API_KEY),
+      ]);
+      dispatch({ type: "SET_WEATHER", payload: { currentWeather: current, forecast }});
     } catch (err) {
       const msg = parseWeatherError(err);
       dispatch({ type: "SET_ERROR", payload: msg });
