@@ -4,23 +4,23 @@ import { useWeatherState, useWeatherDispatch } from "./contexts/WeatherContext";
 import SearchBar from "./components/SearchBar";
 import UnitToggle from "./components/UnitToggle"
 import LanguageToggle from "./components/LanguageToggle";
-import CurrentWeatherCard from "./components/CurrentWeatherCard";
+import WeatherCard from "./components/WeatherCard";
 import ForecastGrid from "./components/ForecastGrid";
 import ErrorBanner from "./components/ErrorBanner";
 
 const App = () => {
-  const { city, units, currentWeather, forecast, loading, error, language, translation } = useWeatherState();
+  const { city, units, weather, forecast, loading, language, translation } = useWeatherState();
   const { dispatch, actions } = useWeatherDispatch();
 
   const handleUnitsChange = useCallback((newUnits) => {
     actions.setUnits(dispatch, newUnits);
-    if (city) actions.loadWeather(dispatch, city, newUnits, language);
-  }, [actions, city, language]);
+    if (city) actions.loadWeatherByCity(dispatch, city, newUnits, language);
+  }, [actions, city]);
 
   const handleLanguageChange = useCallback((newLanguage) => {
     actions.setLanguage(dispatch, newLanguage);
-    if (city) actions.loadWeather(dispatch, city, units, newLanguage);
-  }, [actions, city, units]);
+    if (city) actions.loadWeatherByCity(dispatch, city, units, newLanguage);
+  }, [actions, city]);
 
   return (
     <Container maxWidth="md">
@@ -41,7 +41,7 @@ const App = () => {
 
           <ErrorBanner />
 
-          {!loading && !currentWeather && !forecast && city === "" && (
+          {!loading && !weather && !forecast && city === "" && (
             <Box sx={{ mt: 4, textAlign: "center" }}>
               <Typography variant="body1" color="text.secondary">
                 {translation.noData}
@@ -55,9 +55,9 @@ const App = () => {
             </Box>
           ) : (
             <>
-              {currentWeather && (
+              {weather && (
                 <Box sx={{ mt: 3 }}>
-                  <CurrentWeatherCard />
+                  <WeatherCard />
                 </Box>
               )}
               {forecast && (

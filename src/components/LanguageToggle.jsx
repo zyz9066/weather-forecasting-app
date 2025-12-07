@@ -3,8 +3,9 @@ import { useWeatherState } from "../contexts/WeatherContext";
 
 const LanguageToggle = ({ onChange }) => {
   const { language } = useWeatherState();
-  const handleChange = (_, newLang) => {
-    if (newLang !== null) onChange(newLang);
+
+  const handleChange = (_, newLanguage) => {
+    if (newLanguage !== null) onChange(newLanguage);
   };
 
   return (
